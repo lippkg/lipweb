@@ -61,7 +61,8 @@ export async function searchPackages(
     url.searchParams.set('order', order);
   }
   const response = await fetch(url);
-  return (await response.json()).data;
+  const data = await response.json() as { data: SearchPackagesResponse };
+  return data.data;
 }
 
 export async function getPackage(
@@ -71,7 +72,8 @@ export async function getPackage(
   const url = new URL(apiUrl);
   url.pathname = url.pathname + `/packages/${source}/${identifier}`;
   const response = await fetch(url);
-  return (await response.json()).data;
+  const data = await response.json() as { data: GetPackageResponse };
+  return data.data;
 }
 
 type ResponseErr = {
@@ -89,8 +91,8 @@ export async function tryGetPackage(
   url.pathname = url.pathname + `/packages/${source}/${identifier}`;
   const response = await fetch(url);
   if(response.ok) {
-    return Result.Ok((await response.json()).data);
+    return Result.Ok((await response.json()) as GetPackageResponse);
   } else {
-    return Result.Err((await response.json()).error);
+    return Result.Err((await response.json()) as ResponseErr);
   }
 }

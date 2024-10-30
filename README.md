@@ -1,23 +1,16 @@
-# bedrinth-site
+# bedrinth
 
 The Minecraft Bedrock mod index
 
-## Install
+## Develop
 
-Clone the repo and install dependencies with npm:
-
-```sh
-npm ci
-npm run build
-```
-
-## Usage
+Run the development server:
 
 ```sh
-npm start
+npm run dev
 ```
 
-Then visit the site at port 3000.
+Then visit the site at <http://localhost:3000>.
 
 ## Contributing
 

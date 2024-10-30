@@ -36,5 +36,11 @@ yarn-error.log*
 next-env.d.ts
 
 
-# Project specific
-/.vscode/
+
+# wrangler files
+.wrangler
+.dev.vars
+
+
+
+.vscode/

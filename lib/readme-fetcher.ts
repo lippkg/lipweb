@@ -21,6 +21,6 @@ async function fetchGithubReadme(identifier: string): Promise<string> {
 async function fetchPypiReadme(identifier: string): Promise<string> {
   const url = new URL(`https://pypi.org/pypi/${identifier}/json`);
   const response = await fetch(url);
-  const data = await response.json();
+  const data = await response.json() as { info: { description: string } };
   return data.info.description;
 }
