@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { type JSX } from 'react';
 import { Metadata } from 'next';
 import { tryGetPackage } from '@/lib/api';
