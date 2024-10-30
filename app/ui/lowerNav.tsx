@@ -8,39 +8,45 @@ interface TabItem {
 
 const TAB_ITEM_LIST: TabItem[] = [
   {
-    name: 'Bedrinth',
+    name: 'Home',
     href: '/'
   },
   {
-    name: 'lip',
-    href: 'https://github.com/futrime/lip'
+    name: 'Mods',
+    href: '/?q=type:mod'
   },
   {
-    name: 'LeviLamina',
-    href: 'https://github.com/LiteLDev/LeviLamina'
+    name: 'Modpacks',
+    href: '/?q=type:modpack'
   },
   {
-    name: 'Endstone',
-    href: 'https://github.com/EndstoneMC/endstone'
+    name: 'Addons',
+    href: '/?q=type:addon'
+  },
+  {
+    name: 'Worlds',
+    href: '/?q=type:world'
   },
 ];
 
 export default function LowerNav (): JSX.Element {
   return (
     <nav>
-      <div className="container mx-auto">
-        <ul className="flex">
-          {TAB_ITEM_LIST.map(tabItem => (
-            <li key={tabItem.href}>
-              <Link
-                href={tabItem.href}
-                className="block mx-1 px-2 py-3 hover:text-blue-600 transition"
-              >
-                {tabItem.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <div className="container mx-auto my-2">
+        <div className="overflow-x-auto">
+          <ul className="flex whitespace-nowrap">
+            {TAB_ITEM_LIST.map(tabItem => (
+              <li key={tabItem.href}>
+                <Link
+                  href={tabItem.href}
+                  className="block mx-1 px-2 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+                >
+                  {tabItem.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </nav>
   );

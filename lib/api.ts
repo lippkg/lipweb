@@ -91,7 +91,7 @@ export async function tryGetPackage(
   url.pathname = url.pathname + `/packages/${source}/${identifier}`;
   const response = await fetch(url);
   if(response.ok) {
-    return Result.Ok((await response.json()) as GetPackageResponse);
+    return Result.Ok(((await response.json()) as { data: GetPackageResponse }).data);
   } else {
     return Result.Err((await response.json()) as ResponseErr);
   }

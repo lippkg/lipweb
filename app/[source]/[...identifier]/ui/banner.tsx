@@ -85,21 +85,23 @@ export default function Banner({
   return (
     <div className='py-10 bg-background px-3 text-foreground'>
       <div className='container mx-auto'>
-        <div className='flex mt-24'>
-          <h1 className='text-2xl mr-3'>{pkg.name}</h1>
-          {pkg.tags.map((tag) => (
-            <div
-              key={tag}
-              className='rounded-lg border bg-secondary flex mx-1 px-4 py-1'
-            >
-              <span>{tag}</span>
-            </div>
-          ))}
+        <div className='mt-24'>
+          <h1 className='text-2xl mb-3'>{pkg.name}</h1>
+          <div className='flex flex-wrap'>
+            {pkg.tags.map((tag) => (
+              <div
+                key={tag}
+                className='rounded-lg border bg-secondary flex mx-1 mb-2 px-4 py-1'
+              >
+                <span className='text-sm'>{tag}</span>
+              </div>
+            ))}
+          </div>
         </div>
         {pkg.versions.length > 0 ? (
           <>
             <div className='mt-5'>
-              <div className='container mx-auto'>
+              <div className=''>
                 <span>{pkg.description}</span>
               </div>
             </div>
@@ -123,8 +125,8 @@ export default function Banner({
                   </option>
                 ))}
               </select>
-              <div className='flex bg-slate-200 dark:bg-slate-700 p-3 break-all'>
-                <code>{installCmd.val}</code>
+              <div className='flex bg-slate-200 dark:bg-slate-700 p-3 overflow-hidden'>
+                <code className='truncate'>{installCmd.val}</code>
               </div>
               {pkg.source == 'github' && pkg.packageManager == 'none' ? (
                 <Link
@@ -150,8 +152,14 @@ export default function Banner({
           <></>
         )}
 
-        <Link href={reamMeLinkBuilder(pkg)} className='pt-4 text-blue-400'>
-          Go to the source
+        <Link 
+          href={reamMeLinkBuilder(pkg)} 
+          className="mt-6 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-gray-400 to-gray-500 rounded-lg hover:from-gray-500 hover:to-gray-600 transition-all duration-200 shadow-md hover:shadow-lg"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+          View Source
         </Link>
       </div>
     </div>
