@@ -37,7 +37,7 @@ export default async function Readme({
   return (
     <div className='py-10 px-3 text-primary'>
       <div
-        className='container prose dark:prose-invert prose-img:inline'
+        className='lg:container mx-auto prose dark:prose-invert prose-img:inline'
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
     </div>
