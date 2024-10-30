@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   searchParams,
 }: Readonly<{
   searchParams?: {
