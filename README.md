@@ -2,6 +2,12 @@
 
 The Minecraft Bedrock mod index
 
+## Install
+
+```sh
+npm install
+```
+
 ## Develop
 
 Run the development server:
