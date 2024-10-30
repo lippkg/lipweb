@@ -20,7 +20,7 @@ export async function generateMetadata({
   }
   const pkg = response.val;
   return {
-    title: `${pkg.name}-Bedrinth`,
+    title: `${pkg.name} - Bedrinth`,
   };
 }
 
