@@ -55,7 +55,12 @@ export function PaginationComponent({
         <button
           key={key}
           className={cn(className, "bg-default-200/50 min-w-8 w-8 h-8")}
-          onClick={onNext}
+          onClick={() => {
+            onNext();
+            const params = new URLSearchParams(searchParams);
+            params.set("page", (pageIndex + 1).toString());
+            replace(`/?${params.toString()}`);
+          }}
         >
           <ChevronIcon className="rotate-180" />
         </button>
@@ -67,7 +72,12 @@ export function PaginationComponent({
         <button
           key={key}
           className={cn(className, "bg-default-200/50 min-w-8 w-8 h-8")}
-          onClick={onPrevious}
+          onClick={() => {
+            onPrevious();
+            const params = new URLSearchParams(searchParams);
+            params.set("page", (pageIndex - 1).toString());
+            replace(`/?${params.toString()}`);
+          }}
         >
           <ChevronIcon />
         </button>

@@ -1,12 +1,12 @@
 import type { SearchPackagesResponse } from "../lib/api";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+import { Card, CardBody, CardFooter } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
 import { Image } from "@nextui-org/image";
 import { IoMdStarOutline } from "react-icons/io";
 import { MdUpdate } from "react-icons/md";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Link } from "@nextui-org/link";
-import { Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/avatar";
+import { Avatar } from "@nextui-org/avatar";
 type Color = "primary" | "secondary" | "success" | "warning" | "danger";
 
 const colors: Color[] = [
