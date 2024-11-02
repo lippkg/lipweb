@@ -1,27 +1,55 @@
-import { type JSX } from 'react';
+import "@/styles/globals.css";
+import { Metadata, Viewport } from "next";
+import { Link } from "@nextui-org/link";
+import clsx from "clsx";
 
-import { inter } from '@/app/ui/fonts';
-import './ui/global.css';
-import Header from './ui/header';
+import { Providers } from "./providers";
 
-import { ThemeProvider } from './ui/themeProvider';
+import { siteConfig } from "@/config/site";
+import { fontSans } from "@/config/fonts";
+import { BasicNavbar } from "@/components/navbar";
+import { FooterComponent } from "@/components/footer";
 
-export default function Layout({
+export const metadata: Metadata = {
+  title: {
+    default: siteConfig.name,
+    template: `%s - ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+};
+
+export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>): JSX.Element {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang='en'>
-      <body className={`${inter.className} antialiased h-screen flex flex-col`}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          {children}
-          <footer className='py-3' />
-        </ThemeProvider>
+    <html suppressHydrationWarning lang="en">
+      <head />
+      <body
+        className={clsx(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+          <div className="relative flex flex-col h-screen">
+            <BasicNavbar />
+            <main>{children}</main>
+
+            <FooterComponent />
+          </div>
+        </Providers>
       </body>
     </html>
   );
