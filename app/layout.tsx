@@ -1,10 +1,9 @@
+export const runtime = "edge";
+
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import { Link } from "@nextui-org/link";
 import clsx from "clsx";
-
 import { Providers } from "./providers";
-
 import { BasicNavbar } from "@/components/navbar";
 import { FooterComponent } from "@/components/footer";
 

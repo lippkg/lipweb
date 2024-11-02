@@ -48,14 +48,13 @@ export default function Page({
       if (searchParams?.platform) {
         const platformArr = searchParams?.platform.split(",");
         if (platformArr.length > 0) {
-          if (platformArr.length != 2) {
-            q += "platform:" + platformArr.join(" platform:");
-          }
+          q += "*platform:" + platformArr.join("*platform:");
         }
       }
       if (searchParams?.q) {
-        q += ` ${searchParams.q}`;
+        q += `*+${searchParams.q}`;
       }
+
       const result = await searchPackages(
         q,
         undefined,
