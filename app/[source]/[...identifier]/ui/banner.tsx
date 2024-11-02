@@ -29,11 +29,18 @@ function commandBuilder(
       return Result.Ok(
         `pip install ${pkg.identifier}${version ? `==${version}` : ''}`
       );
+    } else if (pkg.source == 'github') {
+      // pip--github
+      return Result.Ok(
+        `pip install git+https://github.com/${pkg.identifier}${
+          version ? `@${version}` : ''
+        }`
+      );
     }
   } else if (pkg.packageManager == 'none') {
     // none--github
     return Result.Err(
-      'This package does not support installation via a package manager'
+      'Download and install manually'
     );
   }
   return Result.Err('');
