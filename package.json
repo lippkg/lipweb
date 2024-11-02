@@ -1,12 +1,12 @@
 {
-  "name": "next-app-template",
+  "name": "bedrinth",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
+    "lint": "next lint",
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy",
@@ -49,6 +49,7 @@
     "tailwind-variants": "0.1.20",
     "tailwindcss": "3.4.3",
     "typescript": "5.6.3",
+    "vercel": "^37.14.0",
     "wrangler": "^3.84.1"
   }
 }
