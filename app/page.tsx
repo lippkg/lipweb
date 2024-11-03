@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
-
-import { PaginationComponent } from "../components/pagination";
+import { PaginationComponent } from "../components/home/pagination";
 import { searchPackages } from "@/lib/api";
-import PluginCard from "../components/plugincard";
-import { TabsContent } from "@/components/tabs";
+import PluginCard from "../components/home/plugin-card";
+import { TabsContent } from "@/components/home/tabs";
 import { SearchPackagesResponse } from "../lib/api";
-import { PlatformSort } from "@/components/platformsort";
-import { InputSort } from "@/components/input";
+import { PlatformSort } from "@/components/home/platform-sort";
+import { InputSort } from "@/components/home/input";
 import { Spinner } from "@nextui-org/react";
+import { debounce } from "lodash";
 
 const words = ["levilamina mods", "endstone plugins"];
 type Color = "violet" | "yellow" | "blue" | "cyan" | "green" | "pink";
@@ -42,35 +41,42 @@ export default function Page({
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    async function fetchPackages() {
-      let q: string = "";
-      if (searchParams?.platform) {
-        const platformArr = searchParams?.platform.split(",");
-        if (platformArr.length > 0) {
-          q += "*platform:" + platformArr.join("*platform:");
-        }
+  const q = useMemo(() => {
+    let query = "";
+    if (searchParams?.platform) {
+      const platformArr = searchParams.platform.split(",");
+      if (platformArr.length > 0) {
+        query += "*platform:" + platformArr.join("*platform:");
       }
-      if (searchParams?.q) {
-        q += `*+${searchParams.q}`;
-      }
-
-      const result = await searchPackages(
-        q,
-        undefined,
-        searchParams?.page,
-        searchParams?.sort
-      );
-      setPackages(result);
     }
-
-    fetchPackages();
+    if (searchParams?.q) {
+      query += `*+${searchParams.q}`;
+    }
+    return query;
   }, [searchParams]);
+
+  const fetchPackages = useMemo(
+    () =>
+      debounce(async () => {
+        const result = await searchPackages(
+          q,
+          undefined,
+          searchParams?.page,
+          searchParams?.sort
+        );
+        setPackages(result);
+      }, 300),
+    [q, searchParams?.page, searchParams?.sort]
+  );
+
+  useEffect(() => {
+    fetchPackages();
+  }, [fetchPackages]);
 
   if (!packages) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Spinner label="Warning" size="lg" color="default" />
+        <Spinner label="Loading" size="lg" color="default" />
       </div>
     );
   }

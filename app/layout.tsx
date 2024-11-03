@@ -4,8 +4,8 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 import { Providers } from "./providers";
-import { BasicNavbar } from "@/components/navbar";
-import { FooterComponent } from "@/components/footer";
+import { BasicNavbar } from "@/components/home/navbar";
+import { FooterComponent } from "@/components/home/footer";
 
 export const metadata: Metadata = {
   title: "Bedrinth",
@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <head />
+      <head></head>
       <body
         className={clsx("min-h-screen bg-background font-sans antialiased")}
       >
@@ -33,7 +33,6 @@ export default function RootLayout({
           <div className="relative flex flex-col h-screen">
             <BasicNavbar />
             <main>{children}</main>
-
             <FooterComponent />
           </div>
         </Providers>

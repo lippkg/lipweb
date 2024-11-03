@@ -11,7 +11,7 @@ type SocialIconProps = Omit<IconProps, "icon">;
 const navLinks = [
   {
     name: "Home",
-    href: "#",
+    href: "/",
   },
   {
     name: "About",
@@ -21,20 +21,6 @@ const navLinks = [
 
 const socialItems = [
   {
-    name: "Facebook",
-    href: "#",
-    icon: (props: SocialIconProps) => (
-      <Icon {...props} icon="fontisto:facebook" />
-    ),
-  },
-  {
-    name: "Instagram",
-    href: "#",
-    icon: (props: SocialIconProps) => (
-      <Icon {...props} icon="fontisto:instagram" />
-    ),
-  },
-  {
     name: "Twitter",
     href: "#",
     icon: (props: SocialIconProps) => (
@@ -43,7 +29,7 @@ const socialItems = [
   },
   {
     name: "GitHub",
-    href: "#",
+    href: "https://github.com/LiteLDev/",
     icon: (props: SocialIconProps) => (
       <Icon {...props} icon="fontisto:github" />
     ),

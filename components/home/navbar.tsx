@@ -11,7 +11,6 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Link,
-  Button,
   Divider,
   cn,
 } from "@nextui-org/react";
@@ -28,7 +27,7 @@ export const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         ref={ref}
         {...props}
         classNames={{
-          base: cn("border-default-100 bg-transparent", {
+          base: cn("border-default-100 bg-transparent ", {
             "bg-default-200/50 dark:bg-default-100/50": isMenuOpen,
           }),
           wrapper: "w-full justify-center",
@@ -36,6 +35,7 @@ export const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           ...classNames,
         }}
         height="60px"
+        maxWidth="xl"
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
       >
@@ -58,7 +58,7 @@ export const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
             <Link
               aria-current="page"
               className="text-default-foreground"
-              href="#"
+              href="/"
               size="sm"
             >
               Home
