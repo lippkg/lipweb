@@ -1,3 +1,5 @@
+"use client";
+
 import type { SearchPackagesResponse } from "../../lib/api";
 import { Card, CardBody, CardFooter } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
@@ -24,6 +26,7 @@ type ResultItem = SearchPackagesResponse["items"][number];
 
 export default function PluginCard({ result }: { result: ResultItem }) {
   const router = useRouter();
+
   let colorIndex = 0;
 
   const getNextColor = (): Color => {
@@ -32,9 +35,9 @@ export default function PluginCard({ result }: { result: ResultItem }) {
     return color;
   };
 
-  const handlePress = useCallback(() => {
+  const handlePress = () => {
     router.push(`/${result.source}/${result.identifier}`);
-  }, [router, result.source, result.identifier]);
+  };
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString("en-US", {
