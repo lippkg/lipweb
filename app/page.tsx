@@ -73,14 +73,6 @@ export default function Page({
     fetchPackages();
   }, [fetchPackages]);
 
-  if (!packages) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Spinner label="Loading" size="lg" color="default" />
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto max-w-7xl px-6 flex-grow">
       <div>
@@ -134,36 +126,44 @@ export default function Page({
         <PlatformSort platform={searchParams?.platform || "all"} />
       </div>
       <br />
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 1 },
-          visible: {
-            opacity: 1,
-            transition: {
-              staggerChildren: 0.3,
-            },
-          },
-        }}
-      >
-        {packages.items.map((item) => (
+      {!packages ? (
+        <div className="flex items-center justify-center ">
+          <Spinner label="Loading" size="lg" color="default" />
+        </div>
+      ) : (
+        <>
           <motion.div
-            key={item.updated}
+            initial="hidden"
+            animate="visible"
             variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
+              hidden: { opacity: 1 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.3,
+                },
+              },
             }}
-            transition={{ duration: 0.5 }}
           >
-            <PluginCard result={item} />
+            {packages.items.map((item) => (
+              <motion.div
+                key={item.updated}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.5 }}
+              >
+                <PluginCard result={item} />
+              </motion.div>
+            ))}
           </motion.div>
-        ))}
-      </motion.div>
-      <PaginationComponent
-        pageIndex={packages.pageIndex}
-        totalPages={packages.totalPages}
-      />
+          <PaginationComponent
+            pageIndex={packages.pageIndex}
+            totalPages={packages.totalPages}
+          />
+        </>
+      )}
     </div>
   );
 }
