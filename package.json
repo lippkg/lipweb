@@ -29,7 +29,7 @@
     "@tailwindcss/typography": "^0.5.10",
     "@cloudflare/next-on-pages": "^1.13.5",
     "@cloudflare/workers-types": "^4.20241022.0",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
