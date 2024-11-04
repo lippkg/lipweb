@@ -2,7 +2,6 @@
 import type { GetPackageResponse } from "@/lib/api";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/modal";
 import { Result } from "@/lib/result";
-import { useState } from "react";
 import CodeBlock from "./code-block";
 
 function commandBuilder(

@@ -14,11 +14,11 @@ import { formatDistanceToNow } from "date-fns";
 import { IoToday } from "react-icons/io5";
 import { Chip } from "@nextui-org/chip";
 import { Button } from "@nextui-org/react";
-import { GrCube, GrInstall } from "react-icons/gr";
+import { GrCube, GrInstall, GrDownload } from "react-icons/gr";
 import { motion } from "framer-motion";
 import { useDisclosure } from "@nextui-org/modal";
 import InstallModal from "./install-modal";
-
+import { Link } from "@nextui-org/link";
 export default function VersionCard({
   pkg,
 }: Readonly<{
@@ -78,7 +78,7 @@ export default function VersionCard({
               </div>
             </TableCell>
             <TableCell className="p-4">
-              <HoverButton pkg={pkg} tag={version.version} />
+              <HoverButton pkg={pkg} version={version.version} />
             </TableCell>
           </TableRow>
         ))}
@@ -89,39 +89,62 @@ export default function VersionCard({
 
 const HoverButton = ({
   pkg,
-  tag,
+  version,
 }: {
   pkg: GetPackageResponse;
-  tag: string;
+  version: string;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
-      <Button
-        variant="light"
-        isIconOnly
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={onOpen}
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          {isHovered ? <GrInstall size={28} /> : <GrCube size={28} />}
-        </motion.div>
-      </Button>
-      <InstallModal
-        pkg={pkg}
-        versionStr={tag}
-        isVersionSelected={true}
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
-      />
+      {pkg.source == "github" && pkg.packageManager == "none" ? (
+        <>
+          <Link
+            isExternal
+            href={`https://github.com/${pkg.identifier}/releases/tag/${
+              version
+            }`}
+            size="sm"
+          >
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button variant="light" isIconOnly>
+                {<GrDownload size={24} />}
+              </Button>
+            </motion.div>
+          </Link>
+        </>
+      ) : (
+        <>
+          <Button
+            variant="light"
+            isIconOnly
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onClick={() => {
+              onOpen();
+              setIsHovered(false);
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {isHovered ? <GrInstall size={28} /> : <GrCube size={28} />}
+            </motion.div>
+          </Button>
+          <InstallModal
+            pkg={pkg}
+            versionStr={version}
+            isVersionSelected={true}
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onOpenChange={onOpenChange}
+          />
+        </>
+      )}
     </>
   );
 };

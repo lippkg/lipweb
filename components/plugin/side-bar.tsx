@@ -16,7 +16,7 @@ export default function SideBar({
         transition={{ duration: 1, delay: 0.2 }}
       >
         <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
-          preset1
+          NULL
         </Card>
       </motion.div>
       <motion.div
@@ -25,7 +25,7 @@ export default function SideBar({
         transition={{ duration: 1, delay: 0.4 }}
       >
         <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
-          preset2
+          NULL
         </Card>
       </motion.div>
       <motion.div
@@ -34,7 +34,7 @@ export default function SideBar({
         transition={{ duration: 1, delay: 0.6 }}
       >
         <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
-          preset3
+          NULL
         </Card>
       </motion.div>
     </>

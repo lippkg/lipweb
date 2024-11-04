@@ -1,12 +1,11 @@
 "use client";
 import type { GetPackageResponse } from "@/lib/api";
-import { useDisclosure } from "@nextui-org/modal";
-import { Tabs, Tab, Button } from "@nextui-org/react";
+import { Tabs, Tab } from "@nextui-org/react";
 import { FaLink } from "react-icons/fa";
 import Readme from "@/components/plugin/readme";
 import { motion } from "framer-motion";
 import VersionCard from "@/components/plugin/versions-table";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { Card } from "@nextui-org/card";
 
 export default function PluginTabs({
@@ -58,8 +57,11 @@ export default function PluginTabs({
     } else if (pkg.packageManager == "pip") {
       if (pkg.source == "pypi") {
         return `https://pypi.org/project/${pkg.identifier}`;
+      } else if (pkg.source == "github") {
+        return `https://github.com/${pkg.identifier}`;
       }
     }
+    console.log(pkg);
     return "";
   }
 
