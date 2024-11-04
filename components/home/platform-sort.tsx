@@ -31,9 +31,9 @@ export function PlatformSort({ platform }: { platform: string }) {
       placeholder="Select an Platform"
       selectedKeys={values}
       className="max-w-xs"
+      disallowEmptySelection
       onSelectionChange={(keys) => {
         setValues(keys);
-        console.log(keys);
         const params = new URLSearchParams(searchParams);
         params.set("platform", Array.from(keys).join(","));
         replace(`/?${params.toString()}`);
