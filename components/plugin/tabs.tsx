@@ -10,59 +10,30 @@ import { Card } from "@nextui-org/card";
 
 export default function PluginTabs({
   pkg,
-  source,
   identifier,
   readme,
 }: Readonly<{
   pkg: GetPackageResponse;
   identifier: string[];
-  source: string;
   readme: string;
 }>) {
   const [tab, setTab] = useState<string>(
-    source === "pypi" && identifier[1] === "versions"
-      ? "versions"
-      : source === "github" && identifier[2] === "versions"
-        ? "versions"
-        : "description"
+    identifier[3] === "versions" ? "versions" : "description"
   );
 
   const handleTabChange = useCallback(
     (key: string) => {
       setTab(key);
-      if (pkg?.packageManager == "lip" || pkg?.packageManager == "none") {
-        if (pkg.source == "github") {
-          const basePath = `/${pkg?.source}/${identifier[0]}/${identifier[1]}`;
-          const newUrl =
-            key === "description" ? basePath : `${basePath}/${key}`;
-          window.history.pushState(null, "", newUrl);
-        }
-      } else if (pkg?.packageManager == "pip") {
-        if (pkg.source == "pypi") {
-          const basePath = `/${pkg?.source}/${identifier[0]}`;
-          const newUrl =
-            key === "description" ? basePath : `${basePath}/${key}`;
-          window.history.pushState(null, "", newUrl);
-        }
-      }
+      const basePath = identifier.slice(0, 3).join("/");
+      const newUrl =
+        key === "description" ? `${basePath}` : `${basePath}/${key}`;
+      window.history.pushState(null, "", "/plugin/" + newUrl);
     },
-    [pkg, identifier]
+    [identifier]
   );
 
   function reamMeLinkBuilder(pkg: GetPackageResponse): string {
-    if (pkg.packageManager == "lip" || pkg.packageManager == "none") {
-      if (pkg.source == "github") {
-        return `https://github.com/${pkg.identifier}`;
-      }
-    } else if (pkg.packageManager == "pip") {
-      if (pkg.source == "pypi") {
-        return `https://pypi.org/project/${pkg.identifier}`;
-      } else if (pkg.source == "github") {
-        return `https://github.com/${pkg.identifier}`;
-      }
-    }
-    console.log(pkg);
-    return "";
+    return `https://${pkg.identifier}`;
   }
 
   return (
@@ -80,7 +51,11 @@ export default function PluginTabs({
         >
           <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
             <div className="tab-content">
-              <Readme readme={readme} pkg={pkg || ({} as GetPackageResponse)} />
+              <Readme
+                readme={readme}
+                source="github"
+                pkg={pkg || ({} as GetPackageResponse)}
+              />
             </div>
           </Card>
         </motion.div>
@@ -98,17 +73,17 @@ export default function PluginTabs({
           )}
         </motion.div>
       </Tab>
-      {pkg?.source != "pypi" && (
-        <Tab
-          key="issues"
-          title={
-            <span className="flex items-center gap-1">
-              Issues <FaLink size={12} />
-            </span>
-          }
-          href={`https://${source}.com/${pkg?.identifier}/issues`}
-        />
-      )}
+
+      <Tab
+        key="issues"
+        title={
+          <span className="flex items-center gap-1">
+            Issues <FaLink size={12} />
+          </span>
+        }
+        href={`https://${pkg?.identifier}/issues`}
+      />
+
       <Tab
         key="source"
         title={

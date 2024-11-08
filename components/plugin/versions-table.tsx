@@ -78,7 +78,7 @@ export default function VersionCard({
               </div>
             </TableCell>
             <TableCell className="p-4">
-              <HoverButton pkg={pkg} version={version.version} />
+              <HoverButton pkg={pkg} versionStr={version.version} />
             </TableCell>
           </TableRow>
         ))}
@@ -89,23 +89,23 @@ export default function VersionCard({
 
 const HoverButton = ({
   pkg,
-  version,
+  versionStr,
 }: {
   pkg: GetPackageResponse;
-  version: string;
+  versionStr: string;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  const version = pkg?.versions.find((t) => t.version === versionStr);
+
   return (
     <>
-      {pkg.source == "github" && pkg.packageManager == "none" ? (
+      {version?.source === "github" && version?.packageManager === "" ? (
         <>
           <Link
             isExternal
-            href={`https://github.com/${pkg.identifier}/releases/tag/${
-              version
-            }`}
+            href={`https://${pkg.identifier}/releases/tag/${versionStr}`}
             size="sm"
           >
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
@@ -137,7 +137,7 @@ const HoverButton = ({
           </Button>
           <InstallModal
             pkg={pkg}
-            versionStr={version}
+            versionStr={versionStr}
             isVersionSelected={true}
             isOpen={isOpen}
             onOpen={onOpen}

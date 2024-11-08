@@ -13,23 +13,20 @@ export default function InstallButton({
   pkg: GetPackageResponse;
 }>) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   return (
     <>
       <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-        {pkg.source == "github" && pkg.packageManager == "none" ? (
+        {pkg.versions[0].packageManager === "" &&
+        pkg.versions[0].source === "github" ? (
           <Link
             isExternal
-            href={`https://github.com/${pkg.identifier}/releases/tag/${
+            href={`https://${pkg.identifier}/releases/tag/${
               pkg.versions[0].version
             }`}
             size="sm"
           >
-            <Button
-              href={`https://github.com/${pkg.identifier}/releases/tag/${
-                pkg.versions[0].version
-              }`}
-              className="text-lg font-bold text-white bg-blue-500 dark:bg-blue-800 dark:text-gray-200 px-4 py-2 rounded-lg flex items-center"
-            >
+            <Button className="text-lg font-bold text-white bg-blue-500 dark:bg-blue-800 dark:text-gray-200 px-4 py-2 rounded-lg flex items-center">
               <GrDownload size={20} className="mr-2" />
               Download
             </Button>

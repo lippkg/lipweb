@@ -41,12 +41,14 @@ export const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
       >
         {/* Left Content */}
         <NavbarBrand>
-          <div className="rounded-full ">
-            <BedrinthLogo size={24} />
-          </div>
-          <span className="ml-2 text-small font-medium text-default-foreground uppercase">
-            Bedrinth
-          </span>
+          <Link href="/">
+            <div className="rounded-full ">
+              <BedrinthLogo size={24} />
+            </div>
+            <span className="ml-2 text-small font-medium text-default-foreground uppercase">
+              Bedrinth
+            </span>
+          </Link>
         </NavbarBrand>
 
         {/* Center Content */}

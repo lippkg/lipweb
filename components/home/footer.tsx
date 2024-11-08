@@ -48,11 +48,14 @@ export function FooterComponent() {
     <footer className="flex w-full flex-col">
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-6 py-12 lg:px-8">
         <div className="flex items-center justify-center">
-          <BedrinthLogo height={32} width={32} />
-          <span className="text-medium font-medium text-default-500 uppercase">
-            &nbsp;&nbsp; Bedrinth
-          </span>
+          <Link href="/">
+            <BedrinthLogo height={32} width={32} />
+            <span className="text-medium font-medium text-default-500 uppercase">
+              &nbsp;&nbsp; Bedrinth
+            </span>
+          </Link>
         </div>
+
         <Spacer y={4} />
         <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
           {navLinks.map((item) => (

@@ -2,25 +2,18 @@
 import { tryGetPackage } from "@/lib/api";
 import { fetchReadme } from "@/lib/readme-fetcher";
 import { redirect } from "next/navigation";
-import { Card } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { GetPackageResponse } from "@/lib/api";
 import { FaStar, FaTag } from "react-icons/fa6";
 import { Chip } from "@nextui-org/chip";
-
 import { Spinner } from "@nextui-org/react";
 import { motion } from "framer-motion";
-
 import InstallButton from "@/components/plugin/install-button";
 import PluginTabs from "@/components/plugin/tabs";
 import SideBar from "@/components/plugin/side-bar";
 
-export default function Page({
-  params,
-}: {
-  params: { source: string; identifier: string[] };
-}) {
+export default function Page({ params }: { params: { identifier: string[] } }) {
   const [pkg, setPkg] = useState<GetPackageResponse | undefined>(undefined);
   const [readme, setReadme] = useState<any>(undefined);
   const [error, setError] = useState<boolean | undefined>(undefined);
@@ -28,23 +21,17 @@ export default function Page({
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchData = useCallback(async () => {
-    if (params.identifier.length >= 1) {
-      let identifier: string;
-      if (params.source === "pypi") {
-        identifier = params.identifier.slice(0, 1).join("/");
-      } else {
-        identifier = params.identifier.slice(0, 2).join("/");
-      }
-      const response = await tryGetPackage(params.source, identifier);
+    if (params.identifier.length >= 2) {
+      const identifier = params.identifier.slice(0, 3).join("/");
+
+      const response = await tryGetPackage(identifier);
       if (response.err) {
         setError(true);
         setLoading(false);
         redirect("/404");
       } else {
-        const readmeData = await fetchReadme(
-          params.source as "github" | "pypi",
-          identifier
-        );
+        const identifierReadme = params.identifier.slice(1, 3).join("/");
+        const readmeData = await fetchReadme("github", identifierReadme);
         setPkg(response.val);
         setReadme(readmeData);
         setLoading(false);
@@ -133,7 +120,6 @@ export default function Page({
               <div className="flex-1 min-w-0">
                 <PluginTabs
                   pkg={pkg || ({} as GetPackageResponse)}
-                  source={params.source}
                   identifier={params.identifier}
                   readme={readme}
                 />

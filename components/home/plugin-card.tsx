@@ -36,7 +36,7 @@ export default function PluginCard({ result }: { result: ResultItem }) {
   };
 
   const handlePress = () => {
-    router.push(`/${result.source}/${result.identifier}`);
+    router.push(`/plugin/${result.identifier}`);
   };
 
   const formatDate = (date: string) => {
@@ -102,19 +102,18 @@ export default function PluginCard({ result }: { result: ResultItem }) {
                   {result.description}
                 </p>
               </div>
-            </div>
-
-            <div className="mt-[-10px] flex gap-4 items-center">
-              {result.tags.map((item) => (
-                <Chip
-                  key={item}
-                  size="sm"
-                  color={getNextColor()}
-                  variant="flat"
-                >
-                  {item}
-                </Chip>
-              ))}
+              <div className="mt-[10px] flex gap-4 items-center flex-wrap">
+                {result.tags.map((item) => (
+                  <Chip
+                    key={item}
+                    size="sm"
+                    color={getNextColor()}
+                    variant="flat"
+                  >
+                    {item}
+                  </Chip>
+                ))}
+              </div>
             </div>
           </div>
 

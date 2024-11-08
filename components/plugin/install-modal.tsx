@@ -3,13 +3,14 @@ import type { GetPackageResponse } from "@/lib/api";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/modal";
 import { Result } from "@/lib/result";
 import CodeBlock from "./code-block";
-
+import { Version } from "@/lib/api";
 function commandBuilder(
+  verInfo: Version,
   pkg: GetPackageResponse,
   version?: string
 ): Result<string, string> {
-  if (pkg.packageManager == "lip") {
-    if (pkg.source == "github") {
+  if (verInfo.packageManager == "lip") {
+    if (verInfo.source == "github") {
       // lip--github
       return Result.Ok(
         `lip install github.com/${pkg.identifier}${
@@ -17,13 +18,13 @@ function commandBuilder(
         }`
       );
     }
-  } else if (pkg.packageManager == "pip") {
-    if (pkg.source == "pypi") {
+  } else if (verInfo.packageManager == "pip") {
+    if (verInfo.source == "pypi") {
       // pip--pypi
       return Result.Ok(
         `pip install ${pkg.identifier}${version ? `==${version}` : ""}`
       );
-    } else if (pkg.source == "github") {
+    } else if (verInfo.source == "github") {
       // pip--github
       return Result.Ok(
         `pip install git+https://github.com/${pkg.identifier}${
@@ -31,7 +32,7 @@ function commandBuilder(
         }`
       );
     }
-  } else if (pkg.packageManager == "none") {
+  } else if (verInfo.packageManager == "none") {
     // none--github
     return Result.Err("Download and install manually");
   }
@@ -59,7 +60,11 @@ export default function InstallModal({
     version?.releasedAt || ""
   ).toLocaleString();
 
-  const installCmd = commandBuilder(pkg, isVersionSelected ? versionStr : "");
+  const installCmd = commandBuilder(
+    version as Version,
+    pkg,
+    isVersionSelected ? versionStr : ""
+  );
 
   return (
     <>

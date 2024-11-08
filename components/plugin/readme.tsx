@@ -8,9 +8,11 @@ import type { GetPackageResponse } from "@/lib/api";
 
 export default function Readme({
   readme,
+  source,
   pkg,
 }: Readonly<{
   readme: string;
+  source: "github" | "pypi";
   pkg: GetPackageResponse;
 }>) {
   const [contentHtml, setContentHtml] = useState("");
@@ -22,7 +24,7 @@ export default function Readme({
         .use(remarkGfm)
         .use(RemarkLinkRewrite, {
           replacer: (url: string) => {
-            switch (pkg.source) {
+            switch (source) {
               case "github":
                 if (
                   url.startsWith("http://") ||

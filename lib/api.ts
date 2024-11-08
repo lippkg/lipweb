@@ -1,39 +1,47 @@
 import { Result } from "./result";
 
-const apiUrl = "https://api.bedrinth.com/v2";
+const apiUrl = "https://api.bedrinth.com/v0.3";
 
 export interface SearchPackagesResponse {
   pageIndex: number;
   totalPages: number;
   items: Array<{
-    packageManager: "lip" | "pip" | "none";
-    source: "github" | "pypi";
     identifier: string;
     name: string;
     description: string;
     author: string;
     tags: string[];
     avatarUrl: string | null;
+    projectUrl: string | null;
     hotness: number;
     updated: string;
   }>;
 }
 
 export interface GetPackageResponse {
-  packageManager: "lip" | "pip" | "none";
-  source: "github" | "pypi";
   identifier: string;
   name: string;
   description: string;
   author: string;
   tags: string[];
   avatarUrl: string | null;
+  projectUrl: string | null;
   hotness: number;
   updated: string;
-  versions: Array<{
-    version: string;
-    releasedAt: string;
-  }>;
+  contributors: Contributor[];
+  versions: Version[];
+}
+
+export interface Version {
+  version: string;
+  releasedAt: string;
+  source: string;
+  packageManager: "lip" | "pip" | "none" | "";
+}
+
+export interface Contributor {
+  username: string;
+  contributions: number;
 }
 
 export async function searchPackages(
@@ -66,11 +74,10 @@ export async function searchPackages(
 }
 
 export async function getPackage(
-  source: string,
   identifier: string
 ): Promise<GetPackageResponse> {
   const url = new URL(apiUrl);
-  url.pathname = url.pathname + `/packages/${source}/${identifier}`;
+  url.pathname = url.pathname + `/packages/${identifier}`;
   const response = await fetch(url);
   const data = (await response.json()) as { data: GetPackageResponse };
   return data.data;
@@ -84,11 +91,10 @@ type ResponseErr = {
 type GetPackageResult = Result<GetPackageResponse, ResponseErr>;
 
 export async function tryGetPackage(
-  source: string,
   identifier: string
 ): Promise<GetPackageResult> {
   const url = new URL(apiUrl);
-  url.pathname = url.pathname + `/packages/${source}/${identifier}`;
+  url.pathname = url.pathname + `/packages/${identifier}`;
   const response = await fetch(url);
   if (response.ok) {
     return Result.Ok(
