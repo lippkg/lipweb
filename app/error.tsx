@@ -12,7 +12,7 @@ export default function Error({
   useEffect(() => {
     console.error(error);
     const timer = setTimeout(() => {
-      //window.location.reload();
+      window.location.reload();
     }, 3000);
 
     return () => clearTimeout(timer);

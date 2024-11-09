@@ -6,12 +6,12 @@ import { Image } from "@nextui-org/image";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { GetPackageResponse } from "@/lib/api";
 import { FaStar, FaTag } from "react-icons/fa6";
-import { Chip } from "@nextui-org/chip";
 import { Spinner } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import InstallButton from "@/components/plugin/install-button";
 import PluginTabs from "@/components/plugin/tabs";
 import SideBar from "@/components/plugin/side-bar";
+import { Link } from "@nextui-org/link";
 
 export default function Page({ params }: { params: { identifier: string[] } }) {
   const [pkg, setPkg] = useState<GetPackageResponse | undefined>(undefined);
@@ -42,14 +42,6 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const filteredTags = useMemo(
-    () =>
-      pkg?.tags.filter(
-        (item) => !item.startsWith("type:") && !item.startsWith("platform:")
-      ),
-    [pkg]
-  );
 
   return (
     <div className="container mx-auto max-w-7xl px-6 flex-grow">
@@ -82,7 +74,23 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
                 <div className="flex flex-col h-full">
                   <div className="mb-2">
                     <h3 className="font-semibold text-foreground/90">
-                      <span className="text-large">{pkg?.name}</span>
+                      <span className="text-large">
+                        <Link
+                          size="lg"
+                          color="foreground"
+                          href={`https://github.com/${pkg?.author}`}
+                        >
+                          {pkg?.author}
+                        </Link>
+                        &nbsp;/&nbsp;
+                        <Link
+                          size="lg"
+                          color="foreground"
+                          href={`https://github.com/${pkg?.author}/${pkg?.name}`}
+                        >
+                          {pkg?.name}
+                        </Link>
+                      </span>
                     </h3>
                     <p className="text-medium text-foreground/80">
                       {pkg?.description}
@@ -93,21 +101,6 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
                       <FaStar />
                       <span>{pkg?.hotness}</span>
                     </div>
-                    {(filteredTags?.length || 0) > 0 && (
-                      <div className="flex items-center gap-2 md:pl-4 hidden md:flex">
-                        <FaTag className="text-gray-500" />
-                        {filteredTags?.map((item) => (
-                          <Chip
-                            key={item}
-                            size="sm"
-                            variant="shadow"
-                            className="text-gray-500"
-                          >
-                            <span className="font-bold">{item}</span>
-                          </Chip>
-                        ))}
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>

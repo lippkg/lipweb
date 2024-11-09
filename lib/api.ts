@@ -37,6 +37,7 @@ export interface Version {
   releasedAt: string;
   source: string;
   packageManager: "lip" | "pip" | "none" | "";
+  platformVersionRequirement: string;
 }
 
 export interface Contributor {

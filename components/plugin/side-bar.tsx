@@ -4,12 +4,22 @@ import { motion } from "framer-motion";
 import { Card } from "@nextui-org/card";
 import { User } from "@nextui-org/user";
 import { Link } from "@nextui-org/link";
+import { Chip } from "@nextui-org/chip";
+import { useMemo } from "react";
 
 export default function SideBar({
   pkg,
 }: Readonly<{
   pkg: GetPackageResponse;
 }>) {
+  const filteredTags = useMemo(
+    () =>
+      pkg?.tags.filter(
+        (item) => !item.startsWith("type:") && !item.startsWith("platform:")
+      ),
+    [pkg]
+  );
+
   return (
     <>
       <motion.div
@@ -17,7 +27,31 @@ export default function SideBar({
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
       >
-        <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 ">
+        <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+            Tags
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {filteredTags?.map((item) => (
+              <Chip
+                key={item}
+                size="sm"
+                variant="shadow"
+                className="text-gray-500 dark:text-gray-300"
+              >
+                <span className="font-bold">{item}</span>
+              </Chip>
+            ))}
+          </div>
+        </Card>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.4 }}
+      >
+        <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
           <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
             Contributors
           </h2>
@@ -43,15 +77,6 @@ export default function SideBar({
         </Card>
       </motion.div>
       {/*
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.4 }}
-      >
-        <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
-          NULL
-        </Card>
-      </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

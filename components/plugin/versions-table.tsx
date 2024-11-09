@@ -9,7 +9,7 @@ import {
   TableCell,
 } from "@nextui-org/table";
 import { Pagination } from "@nextui-org/pagination";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { IoToday } from "react-icons/io5";
 import { Chip } from "@nextui-org/chip";
@@ -65,7 +65,13 @@ export default function VersionCard({
           <TableRow key={version.version}>
             <TableCell className="p-4">{version.version}</TableCell>
             <TableCell className="p-4">
-              <Chip>incomplete</Chip>
+              <Chip>
+                {version.platformVersionRequirement
+                  ? version.packageManager === "lip"
+                    ? "LeviLamina " + version.platformVersionRequirement
+                    : "None"
+                  : "None"}
+              </Chip>
             </TableCell>
             <TableCell className="p-4">
               <div className="flex items-center space-x-2">

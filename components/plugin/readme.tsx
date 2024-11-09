@@ -33,7 +33,7 @@ export default function Readme({
                 ) {
                   return url;
                 } else {
-                  return `https://github.com/${pkg.identifier}/blob/HEAD/${url}`;
+                  return `https://${pkg.identifier}/blob/HEAD/${url}`;
                 }
               case "pypi":
                 return url;
