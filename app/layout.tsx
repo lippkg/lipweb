@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 import { BasicNavbar } from "@/components/home/navbar";
 import { FooterComponent } from "@/components/home/footer";
+import { fontSans } from "@/config/fonts";
 
 export const metadata: Metadata = {
   title: "Bedrinth",
@@ -27,7 +28,10 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <head></head>
       <body
-        className={clsx("min-h-screen bg-background font-sans antialiased")}
+        className={clsx(
+          "min-h-screen bg-background font-sans antialiased ",
+          fontSans.variable
+        )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">

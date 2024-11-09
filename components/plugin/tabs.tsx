@@ -27,7 +27,7 @@ export default function PluginTabs({
       const basePath = identifier.slice(0, 3).join("/");
       const newUrl =
         key === "description" ? `${basePath}` : `${basePath}/${key}`;
-      window.history.pushState(null, "", "/plugin/" + newUrl);
+      window.history.pushState(null, "", "/packages/" + newUrl);
     },
     [identifier]
   );

@@ -36,7 +36,7 @@ export default function PluginCard({ result }: { result: ResultItem }) {
   };
 
   const handlePress = () => {
-    router.push(`/plugin/${result.identifier}`);
+    router.push(`/packages/${result.identifier}`);
   };
 
   const formatDate = (date: string) => {
