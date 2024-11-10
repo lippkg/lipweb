@@ -57,11 +57,11 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
           <div className="flex flex-col space-y-4">
             <motion.div
               animate={{ y: 0, opacity: 1 }}
-              className="flex"
+              className="flex flex-wrap"
               initial={{ y: -20, opacity: 0 }}
               transition={{ duration: 1 }}
             >
-              <div className="flex-shrink-0 p-4">
+              <div className="flex-shrink-0 p-4 hidden md:flex">
                 <Image
                   alt="avatar"
                   className="rounded-3xl"

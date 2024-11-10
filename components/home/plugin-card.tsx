@@ -7,9 +7,6 @@ import { Chip } from "@nextui-org/chip";
 import { Image } from "@nextui-org/image";
 import { IoMdStarOutline } from "react-icons/io";
 import { MdUpdate } from "react-icons/md";
-import { Tooltip } from "@nextui-org/tooltip";
-import { Link } from "@nextui-org/link";
-import { Avatar } from "@nextui-org/avatar";
 import { useRouter } from "next/navigation";
 
 type Color = "primary" | "secondary" | "success" | "warning" | "danger";
@@ -59,8 +56,8 @@ export default function PluginCard({ result }: { result: ResultItem }) {
       onClick={handlePress}
     >
       <CardBody>
-        <div className="flex">
-          <div className="flex-shrink-0 p-4">
+        <div className="flex overflow-x-hidden">
+          <div className="flex-shrink-0 p-4 hidden md:flex">
             <Image
               alt="avatar"
               className="rounded-3xl"
@@ -77,27 +74,14 @@ export default function PluginCard({ result }: { result: ResultItem }) {
             <div className="flex flex-col h-full">
               <div className="mb-2">
                 <h3 className="font-semibold text-foreground/90">
-                  <span className="text-large">{result.name}</span>
-                  <span className="text-small"> by</span>
-                  <span className="text-small text-pink-600">
-                    <Tooltip
-                      closeDelay={0}
-                      content={
-                        <Avatar
-                          src={`https://avatars.githubusercontent.com/${result.author}`}
-                        />
-                      }
-                      delay={0}
-                      placement="right"
-                    >
-                      <Link
-                        isBlock
-                        href={`https://github.com/${result.author}`}
-                        size="sm"
-                      >
-                        {result.author}
-                      </Link>
-                    </Tooltip>
+                  <span className="text-large">
+                    <span className="text-foreground text-lg">
+                      {result.author}
+                    </span>
+                    &nbsp;/&nbsp;
+                    <span className="text-foreground text-lg">
+                      {result.name}
+                    </span>
                   </span>
                 </h3>
                 <p className="text-medium text-foreground/80">
