@@ -51,11 +51,11 @@ export default function Page({
       const platformArr = searchParams.platform.split(",");
 
       if (platformArr.length > 0) {
-        query += "*platform:" + platformArr.join("*platform:");
+        query += "platform:" + platformArr.join(" platform:");
       }
     }
     if (searchParams?.q) {
-      query += `*+${searchParams.q}`;
+      query += ` ${searchParams.q}`;
     }
 
     return query;
