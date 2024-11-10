@@ -1,22 +1,23 @@
 "use client";
-import { tryGetPackage } from "@/lib/api";
-import { fetchReadme } from "@/lib/readme-fetcher";
 import { redirect } from "next/navigation";
 import { Image } from "@nextui-org/image";
-import { useEffect, useState, useCallback, useMemo } from "react";
-import { GetPackageResponse } from "@/lib/api";
-import { FaStar, FaTag } from "react-icons/fa6";
+import { useEffect, useState, useCallback } from "react";
+import { FaStar } from "react-icons/fa6";
 import { Spinner } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import { Link } from "@nextui-org/link";
+
+import { GetPackageResponse } from "@/lib/api";
 import InstallButton from "@/components/plugin/install-button";
 import PluginTabs from "@/components/plugin/tabs";
 import SideBar from "@/components/plugin/side-bar";
-import { Link } from "@nextui-org/link";
+import { fetchReadme } from "@/lib/readme-fetcher";
+import { tryGetPackage } from "@/lib/api";
 
 export default function Page({ params }: { params: { identifier: string[] } }) {
   const [pkg, setPkg] = useState<GetPackageResponse | undefined>(undefined);
   const [readme, setReadme] = useState<any>(undefined);
-  const [error, setError] = useState<boolean | undefined>(undefined);
+  const [, setError] = useState<boolean | undefined>(undefined);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -25,6 +26,7 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
       const identifier = params.identifier.slice(0, 3).join("/");
 
       const response = await tryGetPackage(identifier);
+
       if (response.err) {
         setError(true);
         setLoading(false);
@@ -32,6 +34,7 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
       } else {
         const identifierReadme = params.identifier.slice(1, 3).join("/");
         const readmeData = await fetchReadme("github", identifierReadme);
+
         setPkg(response.val);
         setReadme(readmeData);
         setLoading(false);
@@ -47,27 +50,27 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
     <div className="container mx-auto max-w-7xl px-6 flex-grow">
       {loading ? (
         <div className="flex items-center justify-center">
-          <Spinner label="Loading" size="lg" color="default" />
+          <Spinner color="default" label="Loading" size="lg" />
         </div>
       ) : (
         <div>
           <div className="flex flex-col space-y-4">
             <motion.div
+              animate={{ y: 0, opacity: 1 }}
               className="flex"
               initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1 }}
             >
               <div className="flex-shrink-0 p-4">
                 <Image
+                  alt="avatar"
+                  className="rounded-3xl"
+                  height={80}
                   src={
                     pkg?.avatarUrl ||
                     "https://stickerly.pstatic.net/sticker_pack/8cP1NeB69qFawu3Cn0vA/SL4DEZ/20/5e094b29-a0b9-4c95-8359-71af47910afb.png"
                   }
-                  className="rounded-3xl"
                   width={80}
-                  height={80}
-                  alt="avatar"
                 />
               </div>
               <div className="flex-grow p-4 min-w-0">
@@ -76,17 +79,17 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
                     <h3 className="font-semibold text-foreground/90">
                       <span className="text-large">
                         <Link
-                          size="lg"
                           color="foreground"
                           href={`https://github.com/${pkg?.author}`}
+                          size="lg"
                         >
                           {pkg?.author}
                         </Link>
                         &nbsp;/&nbsp;
                         <Link
-                          size="lg"
                           color="foreground"
-                          href={`https://github.com/${pkg?.author}/${pkg?.name}`}
+                          href={pkg?.projectUrl}
+                          size="lg"
                         >
                           {pkg?.name}
                         </Link>
@@ -112,8 +115,8 @@ export default function Page({ params }: { params: { identifier: string[] } }) {
             <div className="flex flex-col lg:flex-row lg:space-x-4">
               <div className="flex-1 min-w-0">
                 <PluginTabs
-                  pkg={pkg || ({} as GetPackageResponse)}
                   identifier={params.identifier}
+                  pkg={pkg || ({} as GetPackageResponse)}
                   readme={readme}
                 />
               </div>

@@ -1,9 +1,11 @@
 "use client";
 
 import type { IconProps } from "@iconify/react";
+
 import React from "react";
 import { Link, Spacer } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
+
 import { BedrinthLogo } from "@/components/icons";
 
 type SocialIconProps = Omit<IconProps, "icon">;

@@ -58,6 +58,7 @@ export function PaginationComponent({
           onClick={() => {
             onNext();
             const params = new URLSearchParams(searchParams);
+
             params.set("page", (pageIndex + 1).toString());
             replace(`/?${params.toString()}`);
           }}
@@ -75,6 +76,7 @@ export function PaginationComponent({
           onClick={() => {
             onPrevious();
             const params = new URLSearchParams(searchParams);
+
             params.set("page", (pageIndex - 1).toString());
             replace(`/?${params.toString()}`);
           }}
@@ -94,16 +96,17 @@ export function PaginationComponent({
 
     return (
       <button
-        ref={ref}
         key={key}
+        ref={ref}
         className={cn(
           className,
           isActive &&
-            "text-white bg-gradient-to-br from-indigo-500 to-pink-500 font-bold"
+            "text-white bg-gradient-to-br from-indigo-500 to-pink-500 font-bold",
         )}
         onClick={() => {
           setPage(value);
           const params = new URLSearchParams(searchParams);
+
           params.set("page", value.toString());
           replace(`/?${params.toString()}`);
         }}
@@ -119,11 +122,11 @@ export function PaginationComponent({
         <Pagination
           disableCursorAnimation
           showControls
-          total={totalPages}
-          initialPage={pageIndex}
           className="gap-2"
+          initialPage={pageIndex}
           radius="full"
           renderItem={renderItem}
+          total={totalPages}
           variant="light"
         />
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import type { SearchPackagesResponse } from "../../lib/api";
+
 import { Card, CardBody, CardFooter } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
 import { Image } from "@nextui-org/image";
@@ -10,7 +11,6 @@ import { Tooltip } from "@nextui-org/tooltip";
 import { Link } from "@nextui-org/link";
 import { Avatar } from "@nextui-org/avatar";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
 
 type Color = "primary" | "secondary" | "success" | "warning" | "danger";
 
@@ -31,7 +31,9 @@ export default function PluginCard({ result }: { result: ResultItem }) {
 
   const getNextColor = (): Color => {
     const color = colors[colorIndex];
+
     colorIndex = (colorIndex + 1) % colors.length;
+
     return color;
   };
 
@@ -60,14 +62,14 @@ export default function PluginCard({ result }: { result: ResultItem }) {
         <div className="flex">
           <div className="flex-shrink-0 p-4">
             <Image
+              alt="avatar"
+              className="rounded-3xl"
+              height={80}
               src={
                 result?.avatarUrl ||
                 "https://stickerly.pstatic.net/sticker_pack/8cP1NeB69qFawu3Cn0vA/SL4DEZ/20/5e094b29-a0b9-4c95-8359-71af47910afb.png"
               }
-              className="rounded-3xl"
               width={80}
-              height={80}
-              alt="avatar"
             />
           </div>
 
@@ -79,19 +81,19 @@ export default function PluginCard({ result }: { result: ResultItem }) {
                   <span className="text-small"> by</span>
                   <span className="text-small text-pink-600">
                     <Tooltip
-                      delay={0}
                       closeDelay={0}
-                      placement="right"
                       content={
                         <Avatar
                           src={`https://avatars.githubusercontent.com/${result.author}`}
                         />
                       }
+                      delay={0}
+                      placement="right"
                     >
                       <Link
                         isBlock
-                        size="sm"
                         href={`https://github.com/${result.author}`}
+                        size="sm"
                       >
                         {result.author}
                       </Link>
@@ -106,8 +108,8 @@ export default function PluginCard({ result }: { result: ResultItem }) {
                 {result.tags.map((item) => (
                   <Chip
                     key={item}
-                    size="sm"
                     color={getNextColor()}
+                    size="sm"
                     variant="flat"
                   >
                     {item}

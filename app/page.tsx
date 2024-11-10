@@ -2,18 +2,21 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { title, subtitle } from "@/components/primitives";
-import { PaginationComponent } from "../components/home/pagination";
-import { searchPackages } from "@/lib/api";
-import PluginCard from "../components/home/plugin-card";
-import { TabsContent } from "@/components/home/tabs";
-import { SearchPackagesResponse } from "../lib/api";
-import { PlatformSort } from "@/components/home/platform-sort";
-import { InputSort } from "@/components/home/input";
 import { Spinner } from "@nextui-org/react";
 import { debounce } from "lodash";
 
+import { PaginationComponent } from "../components/home/pagination";
+import PluginCard from "../components/home/plugin-card";
+import { SearchPackagesResponse } from "../lib/api";
+
+import { title, subtitle } from "@/components/primitives";
+import { searchPackages } from "@/lib/api";
+import { TabsContent } from "@/components/home/tabs";
+import { PlatformSort } from "@/components/home/platform-sort";
+import { InputSort } from "@/components/home/input";
+
 const words = ["levilamina mods", "endstone plugins"];
+
 type Color = "violet" | "yellow" | "blue" | "cyan" | "green" | "pink";
 
 const colors: Color[] = ["violet", "yellow", "blue", "cyan", "green", "pink"];
@@ -43,8 +46,10 @@ export default function Page({
 
   const q = useMemo(() => {
     let query = "";
+
     if (searchParams?.platform) {
       const platformArr = searchParams.platform.split(",");
+
       if (platformArr.length > 0) {
         query += "*platform:" + platformArr.join("*platform:");
       }
@@ -52,6 +57,7 @@ export default function Page({
     if (searchParams?.q) {
       query += `*+${searchParams.q}`;
     }
+
     return query;
   }, [searchParams]);
 
@@ -62,11 +68,12 @@ export default function Page({
           q,
           undefined,
           searchParams?.page,
-          searchParams?.sort
+          searchParams?.sort,
         );
+
         setPackages(result);
       }, 300),
-    [q, searchParams?.page, searchParams?.sort]
+    [q, searchParams?.page, searchParams?.sort],
   );
 
   useEffect(() => {
@@ -78,18 +85,18 @@ export default function Page({
       <div>
         <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
           <motion.div
+            animate={{ opacity: 1, y: 0 }}
             className="inline-block text-center justify-center"
             initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             <span className={title()}>Find your favorite</span>
             <br />
 
             <motion.span
+              animate={{ opacity: 1 }}
               className={`${title({ color: colors[colorIndex] })} fade-in-out`}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
             >
               {words[index]} 
@@ -104,16 +111,16 @@ export default function Page({
           </motion.div>
 
           <motion.div
+            animate={{ opacity: 1 }}
             className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
             <InputSort q={searchParams?.q || ""} />
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.5 }}
           >
             <TabsContent tab={searchParams?.sort || "hotness"} />
@@ -128,13 +135,13 @@ export default function Page({
       <br />
       {!packages ? (
         <div className="flex items-center justify-center ">
-          <Spinner label="Loading" size="lg" color="default" />
+          <Spinner color="default" label="Loading" size="lg" />
         </div>
       ) : (
         <>
           <motion.div
-            initial="hidden"
             animate="visible"
+            initial="hidden"
             variants={{
               hidden: { opacity: 1 },
               visible: {
@@ -148,11 +155,11 @@ export default function Page({
             {packages.items.map((item) => (
               <motion.div
                 key={item.updated}
+                transition={{ duration: 0.5 }}
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0 },
                 }}
-                transition={{ duration: 0.5 }}
               >
                 <PluginCard result={item} />
               </motion.div>

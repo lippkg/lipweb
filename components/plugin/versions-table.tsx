@@ -1,5 +1,6 @@
 "use client";
 import type { GetPackageResponse } from "@/lib/api";
+
 import {
   Table,
   TableHeader,
@@ -9,7 +10,7 @@ import {
   TableCell,
 } from "@nextui-org/table";
 import { Pagination } from "@nextui-org/pagination";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { IoToday } from "react-icons/io5";
 import { Chip } from "@nextui-org/chip";
@@ -17,8 +18,9 @@ import { Button } from "@nextui-org/react";
 import { GrCube, GrInstall, GrDownload } from "react-icons/gr";
 import { motion } from "framer-motion";
 import { useDisclosure } from "@nextui-org/modal";
-import InstallModal from "./install-modal";
 import { Link } from "@nextui-org/link";
+
+import InstallModal from "./install-modal";
 export default function VersionCard({
   pkg,
 }: Readonly<{
@@ -30,14 +32,13 @@ export default function VersionCard({
 
   const currentItems = pkg.versions.slice(
     (page - 1) * itemsPerPage,
-    page * itemsPerPage
+    page * itemsPerPage,
   );
 
   return (
     <Table
       isStriped
       aria-label="VersionCard"
-      shadow="none"
       bottomContent={
         pkg.versions.length > itemsPerPage && (
           <div className="flex w-full justify-end p-4">
@@ -53,6 +54,7 @@ export default function VersionCard({
           </div>
         )
       }
+      shadow="none"
     >
       <TableHeader className="bg-gray-100 dark:bg-gray-800 font-semibold">
         <TableColumn>Name</TableColumn>
@@ -115,7 +117,7 @@ const HoverButton = ({
             size="sm"
           >
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button variant="light" isIconOnly>
+              <Button isIconOnly variant="light">
                 {<GrDownload size={24} />}
               </Button>
             </motion.div>
@@ -124,28 +126,28 @@ const HoverButton = ({
       ) : (
         <>
           <Button
-            variant="light"
             isIconOnly
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            variant="light"
             onClick={() => {
               onOpen();
               setIsHovered(false);
             }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
             <motion.div
-              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
               {isHovered ? <GrInstall size={28} /> : <GrCube size={28} />}
             </motion.div>
           </Button>
           <InstallModal
+            isOpen={isOpen}
+            isVersionSelected={true}
             pkg={pkg}
             versionStr={versionStr}
-            isVersionSelected={true}
-            isOpen={isOpen}
             onOpen={onOpen}
             onOpenChange={onOpenChange}
           />

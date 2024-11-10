@@ -11,8 +11,8 @@ export interface SearchPackagesResponse {
     description: string;
     author: string;
     tags: string[];
-    avatarUrl: string | null;
-    projectUrl: string | null;
+    avatarUrl: string;
+    projectUrl: string;
     hotness: number;
     updated: string;
   }>;
@@ -24,8 +24,8 @@ export interface GetPackageResponse {
   description: string;
   author: string;
   tags: string[];
-  avatarUrl: string | null;
-  projectUrl: string | null;
+  avatarUrl: string;
+  projectUrl: string;
   hotness: number;
   updated: string;
   contributors: Contributor[];
@@ -50,9 +50,10 @@ export async function searchPackages(
   perPage?: number,
   page?: number,
   sort?: "hotness" | "updated",
-  order?: "asc" | "desc"
+  order?: "asc" | "desc",
 ): Promise<SearchPackagesResponse> {
   const url = new URL(apiUrl);
+
   url.pathname = url.pathname + "/packages";
   if (q !== undefined) {
     url.searchParams.set("q", q);
@@ -71,16 +72,19 @@ export async function searchPackages(
   }
   const response = await fetch(url);
   const data = (await response.json()) as { data: SearchPackagesResponse };
+
   return data.data;
 }
 
 export async function getPackage(
-  identifier: string
+  identifier: string,
 ): Promise<GetPackageResponse> {
   const url = new URL(apiUrl);
+
   url.pathname = url.pathname + `/packages/${identifier}`;
   const response = await fetch(url);
   const data = (await response.json()) as { data: GetPackageResponse };
+
   return data.data;
 }
 
@@ -92,14 +96,16 @@ type ResponseErr = {
 type GetPackageResult = Result<GetPackageResponse, ResponseErr>;
 
 export async function tryGetPackage(
-  identifier: string
+  identifier: string,
 ): Promise<GetPackageResult> {
   const url = new URL(apiUrl);
+
   url.pathname = url.pathname + `/packages/${identifier}`;
   const response = await fetch(url);
+
   if (response.ok) {
     return Result.Ok(
-      ((await response.json()) as { data: GetPackageResponse }).data
+      ((await response.json()) as { data: GetPackageResponse }).data,
     );
   } else {
     return Result.Err((await response.json()) as ResponseErr);

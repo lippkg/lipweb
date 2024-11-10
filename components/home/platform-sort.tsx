@@ -8,6 +8,7 @@ const statusOptions = [
   { label: "LeviLamina", key: "levilamina" },
   { label: "Endstone", key: "endstone" },
 ];
+
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -18,7 +19,7 @@ export function PlatformSort({ platform }: { platform: string }) {
   const [values, setValues] = React.useState<Selection>(
     platform === "all"
       ? new Set(statusOptions.map((opt) => opt.key))
-      : new Set(platformArr)
+      : new Set(platformArr),
   );
 
   const searchParams = useSearchParams();
@@ -26,15 +27,16 @@ export function PlatformSort({ platform }: { platform: string }) {
 
   return (
     <Select
+      disallowEmptySelection
+      className="max-w-xs"
       label="Platform"
-      selectionMode="multiple"
       placeholder="Select an Platform"
       selectedKeys={values}
-      className="max-w-xs"
-      disallowEmptySelection
+      selectionMode="multiple"
       onSelectionChange={(keys) => {
         setValues(keys);
         const params = new URLSearchParams(searchParams);
+
         params.set("platform", Array.from(keys).join(","));
         replace(`/?${params.toString()}`);
       }}

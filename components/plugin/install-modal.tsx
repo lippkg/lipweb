@@ -1,13 +1,16 @@
 "use client";
 import type { GetPackageResponse } from "@/lib/api";
+
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/modal";
-import { Result } from "@/lib/result";
+
 import CodeBlock from "./code-block";
+
+import { Result } from "@/lib/result";
 import { Version } from "@/lib/api";
 function commandBuilder(
   verInfo: Version,
   pkg: GetPackageResponse,
-  version?: string
+  version?: string,
 ): Result<string, string> {
   if (verInfo.packageManager == "lip") {
     if (verInfo.source == "github") {
@@ -15,27 +18,28 @@ function commandBuilder(
       return Result.Ok(
         `lip install github.com/${pkg.identifier}${
           version ? `@${version}` : ""
-        }`
+        }`,
       );
     }
   } else if (verInfo.packageManager == "pip") {
     if (verInfo.source == "pypi") {
       // pip--pypi
       return Result.Ok(
-        `pip install ${pkg.identifier}${version ? `==${version}` : ""}`
+        `pip install ${pkg.identifier}${version ? `==${version}` : ""}`,
       );
     } else if (verInfo.source == "github") {
       // pip--github
       return Result.Ok(
         `pip install git+https://github.com/${pkg.identifier}${
           version ? `@${version}` : ""
-        }`
+        }`,
       );
     }
   } else if (verInfo.packageManager == "none") {
     // none--github
     return Result.Err("Download and install manually");
   }
+
   return Result.Err("");
 }
 
@@ -44,7 +48,6 @@ export default function InstallModal({
   versionStr,
   isVersionSelected,
   isOpen,
-  onOpen,
   onOpenChange,
 }: {
   pkg: GetPackageResponse;
@@ -57,20 +60,20 @@ export default function InstallModal({
   const version = pkg?.versions.find((t) => t.version === versionStr);
 
   const releaseTimeString = new Date(
-    version?.releasedAt || ""
+    version?.releasedAt || "",
   ).toLocaleString();
 
   const installCmd = commandBuilder(
     version as Version,
     pkg,
-    isVersionSelected ? versionStr : ""
+    isVersionSelected ? versionStr : "",
   );
 
   return (
     <>
       <Modal isOpen={isOpen} size="2xl" onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) => (
+          {(_onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
                 Install {pkg?.name}

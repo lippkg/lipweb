@@ -9,11 +9,12 @@ export function TabsContent({ tab }: { tab: string }) {
 
   return (
     <Tabs
-      variant="light"
       aria-label="Tabs variants"
       selectedKey={tab}
+      variant="light"
       onSelectionChange={(sort) => {
         const params = new URLSearchParams(searchParams);
+
         params.set("sort", sort.toString());
         replace(`/?${params.toString()}`);
       }}

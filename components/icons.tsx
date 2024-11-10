@@ -221,15 +221,15 @@ export const BedrinthLogo: React.FC<IconSvgProps> = (props) => {
     <svg
       fill="none"
       height={height}
+      viewBox="0 0 32 32"
       width={width}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 32 32"
     >
       <image
-        width="160"
         height="160"
         transform="scale(.2)"
+        width="160"
         xlinkHref="data:image/webp;base64,UklGRm4AAABXRUJQVlA4TGEAAAAvn8AnECegIG0DFk7Gn5iGTGliPkoCBEARVeY/AP5ZqJSgKJLUaC1gAQtYiH9THK+8OCP6bzZtG2st3Up/wPzBilRBxOqppK62TlJUNJ/Fnf/fqoV/q/921EIUgMrlKgsAAA=="
       />
     </svg>

@@ -1,12 +1,14 @@
 "use client";
 import type { GetPackageResponse } from "@/lib/api";
+
 import { Tabs, Tab } from "@nextui-org/react";
 import { FaLink } from "react-icons/fa";
-import Readme from "@/components/plugin/readme";
 import { motion } from "framer-motion";
-import VersionCard from "@/components/plugin/versions-table";
 import { useState, useCallback } from "react";
 import { Card } from "@nextui-org/card";
+
+import VersionCard from "@/components/plugin/versions-table";
+import Readme from "@/components/plugin/readme";
 
 export default function PluginTabs({
   pkg,
@@ -18,7 +20,7 @@ export default function PluginTabs({
   readme: string;
 }>) {
   const [tab, setTab] = useState<string>(
-    identifier[3] === "versions" ? "versions" : "description"
+    identifier[3] === "versions" ? "versions" : "description",
   );
 
   const handleTabChange = useCallback(
@@ -27,9 +29,10 @@ export default function PluginTabs({
       const basePath = identifier.slice(0, 3).join("/");
       const newUrl =
         key === "description" ? `${basePath}` : `${basePath}/${key}`;
+
       window.history.pushState(null, "", "/packages/" + newUrl);
     },
-    [identifier]
+    [identifier],
   );
 
   function reamMeLinkBuilder(pkg: GetPackageResponse): string {
@@ -38,23 +41,23 @@ export default function PluginTabs({
 
   return (
     <Tabs
-      variant="underlined"
       aria-label="Tabs variants"
       selectedKey={tab}
+      variant="underlined"
       onSelectionChange={(key) => handleTabChange(key as string)}
     >
       <Tab key="description" title="Description">
         <motion.div
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
           transition={{ duration: 1 }}
         >
           <Card className="shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
             <div className="tab-content">
               <Readme
+                pkg={pkg || ({} as GetPackageResponse)}
                 readme={readme}
                 source="github"
-                pkg={pkg || ({} as GetPackageResponse)}
               />
             </div>
           </Card>
@@ -62,8 +65,8 @@ export default function PluginTabs({
       </Tab>
       <Tab key="versions" title="Versions">
         <motion.div
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
           transition={{ duration: 1 }}
         >
           {pkg ? (
@@ -76,22 +79,22 @@ export default function PluginTabs({
 
       <Tab
         key="issues"
+        href={`https://${pkg?.identifier}/issues`}
         title={
           <span className="flex items-center gap-1">
             Issues <FaLink size={12} />
           </span>
         }
-        href={`https://${pkg?.identifier}/issues`}
       />
 
       <Tab
         key="source"
+        href={reamMeLinkBuilder(pkg || ({} as GetPackageResponse))}
         title={
           <span className="flex items-center gap-1">
             Source <FaLink size={12} />
           </span>
         }
-        href={reamMeLinkBuilder(pkg || ({} as GetPackageResponse))}
       />
     </Tabs>
   );

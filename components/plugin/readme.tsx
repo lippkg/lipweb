@@ -1,10 +1,11 @@
 "use client";
+import type { GetPackageResponse } from "@/lib/api";
+
 import { useEffect, useState } from "react";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import html from "remark-html";
 import RemarkLinkRewrite from "remark-link-rewrite";
-import type { GetPackageResponse } from "@/lib/api";
 
 export default function Readme({
   readme,
@@ -41,6 +42,7 @@ export default function Readme({
           },
         })
         .process(readme);
+
       setContentHtml(processedReadme.toString());
     }
 
@@ -50,8 +52,8 @@ export default function Readme({
   return (
     <div className="py-10 px-3 text-primary">
       <div
-        className="lg:container mx-auto prose dark:prose-invert prose-img:inline"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
+        className="lg:container mx-auto prose dark:prose-invert prose-img:inline"
       />
     </div>
   );

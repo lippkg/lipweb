@@ -1,6 +1,7 @@
 "use client";
 
 import type { NavbarProps } from "@nextui-org/react";
+
 import React from "react";
 import {
   Navbar,
@@ -14,6 +15,7 @@ import {
   Divider,
   cn,
 } from "@nextui-org/react";
+
 import { ThemeSwitch } from "@/components/theme-switch";
 import { BedrinthLogo } from "@/components/icons";
 
@@ -22,6 +24,7 @@ const menuItems = ["Home"];
 export const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
   ({ classNames = {}, ...props }, ref) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
     return (
       <Navbar
         ref={ref}
@@ -35,8 +38,8 @@ export const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           ...classNames,
         }}
         height="60px"
-        maxWidth="xl"
         isMenuOpen={isMenuOpen}
+        maxWidth="xl"
         onMenuOpenChange={setIsMenuOpen}
       >
         {/* Left Content */}
@@ -102,7 +105,7 @@ export const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         </NavbarMenu>
       </Navbar>
     );
-  }
+  },
 );
 
 BasicNavbar.displayName = "BasicNavbar";
