@@ -28,6 +28,7 @@ export function InputSort({}: { q: string }) {
         const params = new URLSearchParams(searchParams);
 
         params.set("q", value);
+        params.delete("page");
         replace(`/?${params.toString()}`);
       }}
     />
