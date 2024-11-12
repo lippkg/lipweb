@@ -35,6 +35,10 @@ export default function VersionCard({
     page * itemsPerPage,
   );
 
+  const platform = pkg.tags
+    .find((t) => t.startsWith("platform:"))
+    ?.split(":")[1];
+
   return (
     <Table
       isStriped
@@ -58,7 +62,7 @@ export default function VersionCard({
     >
       <TableHeader className="bg-gray-100 dark:bg-gray-800 font-semibold">
         <TableColumn>Name</TableColumn>
-        <TableColumn>Compatibility</TableColumn>
+        <TableColumn>Platform Requirement</TableColumn>
         <TableColumn>Stats</TableColumn>
         <TableColumn> </TableColumn>
       </TableHeader>
@@ -68,11 +72,7 @@ export default function VersionCard({
             <TableCell className="p-4">{version.version}</TableCell>
             <TableCell className="p-4">
               <Chip>
-                {version.platformVersionRequirement
-                  ? version.packageManager === "lip"
-                    ? "LeviLamina " + version.platformVersionRequirement
-                    : "None"
-                  : "None"}
+                {platform} {version.platformVersionRequirement}
               </Chip>
             </TableCell>
             <TableCell className="p-4">

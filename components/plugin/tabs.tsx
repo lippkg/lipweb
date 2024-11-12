@@ -4,7 +4,7 @@ import type { GetPackageResponse } from "@/lib/api";
 import { Tabs, Tab } from "@nextui-org/react";
 import { FaLink } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Card } from "@nextui-org/card";
 
 import VersionCard from "@/components/plugin/versions-table";
@@ -35,9 +35,29 @@ export default function PluginTabs({
     [identifier],
   );
 
-  function reamMeLinkBuilder(pkg: GetPackageResponse): string {
-    return `https://${pkg.identifier}`;
-  }
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      const segments = path.split("/");
+      const key = segments[segments.length - 1];
+
+      let newTab = "description";
+
+      if (key === "versions") {
+        newTab = "versions";
+      } else if (key === "project") {
+        newTab = "project";
+      }
+
+      setTab(newTab);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
 
   return (
     <Tabs
@@ -78,21 +98,11 @@ export default function PluginTabs({
       </Tab>
 
       <Tab
-        key="issues"
-        href={`https://${pkg?.identifier}/issues`}
+        key="project"
+        href={pkg.projectUrl}
         title={
           <span className="flex items-center gap-1">
-            Issues <FaLink size={12} />
-          </span>
-        }
-      />
-
-      <Tab
-        key="source"
-        href={reamMeLinkBuilder(pkg || ({} as GetPackageResponse))}
-        title={
-          <span className="flex items-center gap-1">
-            Source <FaLink size={12} />
+            Project <FaLink size={12} />
           </span>
         }
       />
