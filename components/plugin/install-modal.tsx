@@ -16,9 +16,7 @@ function commandBuilder(
     if (verInfo.source == "github") {
       // lip--github
       return Result.Ok(
-        `lip install github.com/${pkg.identifier}${
-          version ? `@${version}` : ""
-        }`,
+        `lip install ${pkg.identifier}${version ? `@${version}` : ""}`,
       );
     }
   } else if (verInfo.packageManager == "pip") {
@@ -30,7 +28,7 @@ function commandBuilder(
     } else if (verInfo.source == "github") {
       // pip--github
       return Result.Ok(
-        `pip install git+https://github.com/${pkg.identifier}${
+        `pip install git+https://${pkg.identifier}${
           version ? `@${version}` : ""
         }`,
       );
