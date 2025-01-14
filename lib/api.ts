@@ -1,6 +1,6 @@
 import { Result } from "./result";
 
-const apiUrl = "https://api.bedrinth.com/v0.3";
+const apiUrl = "https://api.bedrinth.com/v3";
 
 export interface SearchPackagesResponse {
   pageIndex: number;
